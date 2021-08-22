@@ -34,12 +34,12 @@ driver.switch_to.frame("application-Customer-manageLineItems")
 driver.switch_to.frame("ITSFRAME1")
 
 # Llenar datos
-soc1 = 2100
-soc2 = 2200
+soc1 = 2000
+soc2 = 3100
 element = driver.find_element_by_id("M0:46:::2:34")
 element.send_keys(soc1)
-# element = driver.find_element_by_id("M0:46:::2:59")
-# element.send_keys(soc2)
+element = driver.find_element_by_id("M0:46:::2:59")
+element.send_keys(soc2)
 ayer = datetime.today() - timedelta(days=1)
 d1 = ayer.strftime("%d.%m.%Y")
 element = driver.find_element_by_id("M0:46:::12:34")
