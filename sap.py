@@ -13,9 +13,9 @@ from selenium.webdriver.support import expected_conditions as EC
 env = Env()
 env.read_env()  # read .env file, if it exists
 # required variables
-user_name = env("user_name")  # => 'sloria'
-password = env("password")  # => raises error if not set
-driver_path = env("driver_path",'chromedriver.exe')  # => raises error if not set
+user_name = env("user_name")  
+password = env("password") 
+driver_path = env("driver_path",'chromedriver.exe')  
 
 driver = webdriver.Chrome(driver_path)
 
@@ -38,8 +38,8 @@ soc1 = 2100
 soc2 = 2200
 element = driver.find_element_by_id("M0:46:::2:34")
 element.send_keys(soc1)
-element = driver.find_element_by_id("M0:46:::2:59")
-element.send_keys(soc2)
+# element = driver.find_element_by_id("M0:46:::2:59")
+# element.send_keys(soc2)
 ayer = datetime.today() - timedelta(days=1)
 d1 = ayer.strftime("%d.%m.%Y")
 element = driver.find_element_by_id("M0:46:::12:34")
@@ -50,14 +50,36 @@ element = driver.find_element_by_id("M0:50::btn[8]")
 element.click()
 
 #   Descargar
-try:
-    element = WebDriverWait(driver, 600).until(
-    EC.presence_of_element_located((By.ID, "M0:46:::1:0_l")) #This is a dummy element
-    )
-    print("hola")
-    element = driver.send_keys(Keys.LEFT_SHIFT + Keys.F4)
-    print("hola")
-    element = driver.find_element_by_id("PromptDialogOk")
-    element.click()
-finally:
-    driver.quit()
+
+#   Esperar a que se procesen los datos, si se demora más de 1000 segundos, falla.
+element = WebDriverWait(driver, 1000).until(
+EC.presence_of_element_located((By.ID, "M0:46:::1:0_l")) #This is a dummy element
+)
+
+element = driver.find_element_by_id("RCua2FioriToolbar-moreButton")
+element.click()
+
+element = driver.find_element_by_id("wnd[0]/mbar/menu[0]-BtnChoiceMenu")
+element.location_once_scrolled_into_view
+element.click()
+
+element = driver.find_element_by_id("wnd[0]/mbar/menu[0]/menu[3]")
+element.click()
+
+
+element = driver.find_element_by_id("wnd[0]/mbar/menu[0]/menu[3]/menu[1]")
+element.click()
+
+driver.implicitly_wait(10)
+
+#   Espera a que se abra dialogo
+WebDriverWait(driver, 600).until(
+EC.presence_of_element_located((By.ID, "PromptDialogOk-cnt"))
+)
+element = driver.find_element_by_id("PromptDialogOk")
+
+#   No se por qué pero con dos click funciona
+element.click()
+element.click()
+
+
