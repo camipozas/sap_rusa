@@ -7,4 +7,9 @@ Las librerías utilizadas son:
 - Datatime
 - Environs (para protección de credenciales)
 
-El primer paso es ingresar a la transacción de SAP, mediante selenium se realizan todos los clicks correspondientes y se logra ingresar y descargar la data en formato excel. 
+En primer lugar, se definió la función descarga que ingresa a la transacción de SAP, mediante selenium se realizan todos los clicks correspondientes para poder realizar el flujo completo y extraer los datos.
+
+Para poder realizar inspection en una scrollbar, se basó en lo siguiente:
+https://twitter.com/sulco/status/1305841873945272321
+
+Cabe destacar que SAP posee frames, es decir páginas dentro de otra página por lo que hay que utilizar switch para ingresar.

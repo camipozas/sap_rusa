@@ -44,8 +44,12 @@ def descarga(soc):
     element.click()
     element.clear()
     element.send_keys(d1)
+    element = WebDriverWait(driver, 10000).until(
+    EC.presence_of_element_located((By.ID, "M0:50::btn[8]")) #This is a dummy element
+    )
     element = driver.find_element_by_id("M0:50::btn[8]")    # Ejecutar
     element.click()
+
     
     #   Descargar
     #   Esperar a que se procesen los datos, si se demora más de 1000 segundos, falla.
@@ -96,4 +100,3 @@ sociedades = [2000,2100,2200,3000,3100]
 
 for i in sociedades:
     descarga(i)
-    print([i])
