@@ -1,6 +1,6 @@
-# sap_extraction
+# SAP EXTRACTION
 
-***Spanish Version***
+## ***Spanish Version***
 
 Bot para extracción de transacción FBL5N en SAP Fiori
 
@@ -25,7 +25,7 @@ Por último, en teoría están mapeados todos los posibles errores de SAP de tal
 *Nota:* Para poder realizar inspection en una scrollbar, se basó en lo siguiente:
 https://twitter.com/sulco/status/1305841873945272321
 
-***English Version***
+## ***English Version***
 
 This is a bot for the extraction in SAP Fiori transaction, exactly FBL5N. 
 
