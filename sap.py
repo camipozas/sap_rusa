@@ -10,22 +10,16 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 import shutil
 import pandas as pd
-import os 
-from environs import Env
+import os
 
 # Credenciales
-env = Env()
-env.read_env()  # read .env file, if it exists
-# required variables
-user_name = env("user_name")  
-password = env("password") 
-driver_path = env("driver_path",'chromedriver.exe') 
-server_sql = env("server_sql") 
-database = env("database")
-user_sql = env("user_sql")
-pass_sql = env("pass_sql")
+from params import (
+  user_name,
+  password,
+  driver_path
+)
 
-# Carpeta tmp
+# Folder tmp
 output_dir = os.path.join(os.getcwd(), 'output')
 options = webdriver.ChromeOptions() 
 download_argument = f'download.default_directory={output_dir}'
@@ -40,15 +34,6 @@ def chequear_estado(driver):
            raise ValueError('Error de SAP')
     except NoSuchElementException:
         pass
-
-# Cancel SAP Aplication
-# def cancel_sap(driver):
-#     try:
-#         cancel =  driver.findElement(By.xpath("//*[text()='Cancel SAP Application']"))
-#         if cancel.is_displayed():
-#             raise ValueError('Error de SAP')
-#     except NoSuchElementException:
-#         pass
 
 # Ingreso a transacción y descarga
 def descarga(soc):
