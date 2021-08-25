@@ -2,14 +2,16 @@ from selenium import webdriver
 from selenium.webdriver.common import keys
 from selenium.webdriver.common.keys import Keys
 from datetime import datetime,timedelta
-from environs import Env
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import os
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException
 import shutil
 import pandas as pd
+import os 
+from environs import Env
 
 # Credenciales
 env = Env()
@@ -17,20 +19,43 @@ env.read_env()  # read .env file, if it exists
 # required variables
 user_name = env("user_name")  
 password = env("password") 
-driver_path = env("driver_path",'chromedriver.exe')  
+driver_path = env("driver_path",'chromedriver.exe') 
+server_sql = env("server_sql") 
+database = env("database")
+user_sql = env("user_sql")
+pass_sql = env("pass_sql")
 
+# Carpeta tmp
 output_dir = os.path.join(os.getcwd(), 'output')
 options = webdriver.ChromeOptions() 
 download_argument = f'download.default_directory={output_dir}'
 prefs = {'download.default_directory' : output_dir}
 options.add_experimental_option('prefs', prefs)
 
+# Chequeo estado de la carga
+def chequear_estado(driver):
+    try:
+        error1 = driver.find_element_by_id("wnd[0]/sbar_msg-txt")
+        if error1.is_displayed():
+           raise ValueError('Error de SAP')
+    except NoSuchElementException:
+        pass
+
+# Cancel SAP Aplication
+# def cancel_sap(driver):
+#     try:
+#         cancel =  driver.findElement(By.xpath("//*[text()='Cancel SAP Application']"))
+#         if cancel.is_displayed():
+#             raise ValueError('Error de SAP')
+#     except NoSuchElementException:
+#         pass
+
 # Ingreso a transacción y descarga
 def descarga(soc):
     driver = webdriver.Chrome(driver_path, options = options)
 
     #   Ingresar a SAP
-    driver.get("https://dims4prdci.dimerc.cl:8001/sap/bc/ui5_ui5/ui2/ushell/shells/abap/FioriLaunchpad.html?sap-client=300&sap-language=ES#Customer-manageLineItems?sap-ui-tech-hint=GUI")
+    driver.get("https://dims4prdci.dimerc.cl:8001/sap/bc/ui5_ui5/ui2/ushell/shells/abap/FioriLaunchpad.html#Shell-startGUI?sap-ui2-tcode=FBL5N&sap-system=PRDCLNT300")
     element = driver.find_element_by_id("USERNAME_FIELD-inner")
     element.send_keys(user_name)
     element = driver.find_element_by_id("PASSWORD_FIELD-inner")
@@ -39,10 +64,11 @@ def descarga(soc):
 
     #   Ingresar a la transaccion
     driver.implicitly_wait(20)
-    driver.switch_to.frame("application-Customer-manageLineItems") # Frames SAP
+    driver.switch_to.frame("application-Shell-startGUI")    # Frames SAP (tener ojo con roles y perfiles)
     driver.switch_to.frame("ITSFRAME1")
 
     # Llenar datos
+    chequear_estado(driver)
     element = driver.find_element_by_id("M0:46:::2:34") # Sociedad
     element.send_keys(soc)
     layout = "/AUTOMATI"    # Layout
@@ -55,16 +81,22 @@ def descarga(soc):
     element.click()
     element.clear()
     element.send_keys(d1)
-    element = WebDriverWait(driver, 10000).until(
-    EC.presence_of_element_located((By.ID, "M0:50::btn[8]")) #This is a dummy element
-    )
-    element = driver.find_element_by_id("M0:50::btn[8]")    # Ejecutar
-    element.click()
+    chequear_estado(driver)
 
-    
+    try:
+        element = WebDriverWait(driver, 100).until(
+        EC.presence_of_element_located((By.ID, "M0:50::btn[8]")) #This is a dummy element
+        )
+        element = driver.find_element_by_id("M0:50::btn[8]")    # Ejecutar
+        if element.is_displayed() and element.is_enabled():
+            element.click() # this will click the element if it is there
+            print("FOUND THE LINK CREATE ACTIVITY! and Clicked it!")
+    except NoSuchElementException:
+        print("...")
+
     #   Descargar
     #   Esperar a que se procesen los datos, si se demora más de 1000 segundos, falla.
-    element = WebDriverWait(driver, 10000).until(
+    element = WebDriverWait(driver, 1000).until(
     EC.presence_of_element_located((By.ID, "M0:46:::1:0_l")) #This is a dummy element
     )
     # Scrollbar, mapeo para extraer datos
@@ -115,6 +147,7 @@ def limpiar_output(output_dir):
     os.remove(output_dir)
   # Creamos la carpeta para que este limpia
   os.mkdir(output_dir)
+  print('carpeta limpia')
 
 
 def consolidar(output_dir):
@@ -138,11 +171,21 @@ def consolidar(output_dir):
 # Limpiamos output
 limpiar_output(output_dir)
 # Corremos for
-sociedades = [2100,3100]
+sociedades = [2000,2100,2200,3000,3100]
+
+def descargar_recursivo(soc):
+  try:
+     descarga(soc)
+  except:
+     descargar_recursivo(soc)
 
 for i in sociedades:
-    descarga(i)
+    descargar_recursivo(i)
+    print(i)
 
 # Consolidamos en un solo archivo
 consolidado = consolidar(output_dir)
 consolidado.to_excel('consolidado.xlsx')
+print('terminado')
+
+# SQL SERVER
