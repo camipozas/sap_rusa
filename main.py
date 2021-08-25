@@ -30,5 +30,5 @@ consolidado = consolidar(output_dir)
 consolidado.to_excel('consolidado.xlsx')
 print('terminado')
 
-
 # SQL SERVER
+# Cargar funciones SQL
