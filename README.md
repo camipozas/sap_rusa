@@ -1,6 +1,7 @@
 # sap_extraction
 
 ***Spanish Version***
+
 Bot para extracción de transacción FBL5N en SAP Fiori
 
 Las librerías utilizadas son:
@@ -25,6 +26,7 @@ Por último, en teoría están mapeados todos los posibles errores de SAP de tal
 https://twitter.com/sulco/status/1305841873945272321
 
 ***English Version***
+
 This is a bot for the extraction in SAP Fiori transaction, exactly FBL5N. 
 
 The libraries used are:
