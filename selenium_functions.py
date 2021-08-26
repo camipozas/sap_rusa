@@ -130,10 +130,8 @@ def consolidar(output_dir):
   # Filtramos solo los archivos excel
   excels = [file for file in os.listdir(output_dir) if file.endswith('.xlsx')]
   for excel in excels:
-    print(os.path.join(output_dir, excel))
     # Leemos archivo
     tmp = pd.read_excel(os.path.join(output_dir, excel))
-    print(tmp)
 
     if df.empty:
       df = tmp.copy()
