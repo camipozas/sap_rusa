@@ -13,10 +13,11 @@ password = env("password")
 driver_path = env("driver_path",'chromedriver.exe') 
 
 # SQL
-#server_sql = env("server_sql") 
-#database = env("database")
-#user_sql = env("user_sql")
-#pass_sql = env("pass_sql")
+server_sql = env("server_sql") 
+database = env("database")
+user_sql = env("user_sql")
+pass_sql = env("pass_sql")
+mssql_driver = env("mssql_driver", "ODBC+Driver+17+for+SQL+Server")
 
 # Output 
 output_dir = os.path.join(os.getcwd(), 'output')
