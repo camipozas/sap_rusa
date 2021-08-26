@@ -2,7 +2,7 @@ from selenium_functions import limpiar_output
 from params import output_dir
 from selenium_functions import descarga
 from selenium_functions import consolidar
-from sql_server import connection, insert_df
+from sql_server import connection, test
 
 # Credenciales
 from params import (
