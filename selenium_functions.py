@@ -142,5 +142,4 @@ def consolidar(output_dir):
       df = tmp.copy()
     else:
       df = pd.concat([df, tmp])
-  print(df)
   return df
