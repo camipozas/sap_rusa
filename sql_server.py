@@ -1,4 +1,3 @@
-import pyodbc
 from sqlalchemy import create_engine
 import pandas as pd
 from params import server_sql, database, user_sql, pass_sql, mssql_driver
@@ -13,7 +12,3 @@ def connection():
 def test(df):
     engine = connection()
     df.to_sql('data_diaria_fbl5n', con=engine, if_exists='replace', index=False)
-
-# Leemos df
-df = pd.read_excel('consolidado.xlsx')
-test(df)    # Guardamos valores en SQL

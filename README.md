@@ -51,5 +51,10 @@ Finally, in theory all possible SAP errors are mapped in such away that they doe
 
 *Note:* To be able to perform inspection in a scrollbar, was based on this following: https://twitter.com/sulco/status/1305841873945272321 
 
-## SQL
+## *SQL*
 Install [ODBC](https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/install-microsoft-odbc-driver-sql-server-macos?view=sql-server-ver15)
+
+For insert database from python into SQL Server :
+- https://www.dataquest.io/blog/sql-insert-tutorial/
+- https://stackoverflow.com/questions/11451101/retrieving-data-from-sql-using-pyodbc/11451863 
+- https://stackoverflow.com/questions/31997859/bulk-insert-a-pandas-dataframe-using-sqlalchemy

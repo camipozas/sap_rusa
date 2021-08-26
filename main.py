@@ -2,7 +2,7 @@ from selenium_functions import limpiar_output
 from params import output_dir
 from selenium_functions import descarga
 from selenium_functions import consolidar
-from sql_server import connection, test
+from sql_server import test
 
 # Credenciales
 from params import (
@@ -33,7 +33,8 @@ for i in sociedades:
 # Consolidamos en un solo archivo
 consolidado = consolidar(output_dir)
 consolidado.to_excel('consolidado.xlsx')
-print('terminado')
+#print('terminado')
 
 # SQL SERVER
-# Cargar funciones SQL
+test(consolidado)    # Guardamos valores en SQL
+print('finalizado')
