@@ -2,12 +2,17 @@ from selenium_functions import limpiar_output
 from params import output_dir
 from selenium_functions import descarga
 from selenium_functions import consolidar
+from sql_server import connection, insert_df
 
 # Credenciales
 from params import (
   user_name,
   password,
-  driver_path
+  driver_path,
+  server_sql,
+  database,
+  user_sql,
+  pass_sql
 )
 
 # Limpiamos output antes de iniciar
