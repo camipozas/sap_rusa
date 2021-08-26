@@ -1,4 +1,4 @@
-# SAP EXTRACTION
+# SAP EXTRACTION FBL5N
 
 ## ***Spanish Version***
 
@@ -11,6 +11,7 @@ Las librerías utilizadas son:
 - Os
 - Shutil
 - Pandas
+- sqlalchemy (Conexión a SQL Server)
 
 En primer lugar, se definió la función *descarga()* que ingresa a la transacción de SAP, mediante selenium se realizan todos los clicks correspondientes para poder realizar el flujo completo y extraer los datos.
 
@@ -36,6 +37,7 @@ The libraries used are:
 - Os
 - Shutil
 - Pandas
+- sqlalchemy (conection to sql server)
 
 Fistable, I defined the function *descarga()* that enters in the transaction in SAP by selenium I did the all scraping to do all the flow and extract the data.
 
@@ -48,3 +50,6 @@ Things to consider, when changing users it depends on their role and profile whi
 Finally, in theory all possible SAP errors are mapped in such away that they doesn't have to be executed in a supervised way.
 
 *Note:* To be able to perform inspection in a scrollbar, was based on this following: https://twitter.com/sulco/status/1305841873945272321 
+
+## SQL
+Install [ODBC](https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/install-microsoft-odbc-driver-sql-server-macos?view=sql-server-ver15)
