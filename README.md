@@ -61,11 +61,11 @@ For insert database from python into SQL Server :
 
 ## RUN
 For execute this code you have to run some commands in this order: 
-1. Open the folder on the terminal
-2. python3 -m venv env
-3. source ./env/bin/activate
-4. pip install -r requirements.txt
-5. Then you have to create a new file called .env who have the credentials. For example:
+- Open the folder on the terminal
+- python3 -m venv env
+- source ./env/bin/activate
+- pip install -r requirements.txt
+- Then you have to create a new file called .env who have the credentials. For example:
     user_name=YOUR USERNAME
     password="YOUR PASSWORD"
     driver_path="./chromedriver"
