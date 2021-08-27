@@ -65,7 +65,7 @@ For execute this code you have to run some commands in this order:
 - python3 -m venv env
 - source ./env/bin/activate
 - pip install -r requirements.txt
-- Then you have to create a new file called .env who have the credentials. For example:
+- Then you have to create a new file called .env who have the   credentials. For example:
     user_name=YOUR USERNAME
     password="YOUR PASSWORD"
     driver_path="./chromedriver"
