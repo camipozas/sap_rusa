@@ -66,11 +66,11 @@ For execute this code you have to run some commands in this order:
 3. source ./env/bin/activate
 4. pip install -r requirements.txt
 5. Then you have to create a new file called .env who have the credentials. For example:
-    user_name=YOUR USERNAME
-    password="YOUR PASSWORD"
-    driver_path="./chromedriver"
-    server_sql = "SERVER SQL"
-    database = "DATABASE"
-    user_sql = "USERNAME SQL"
-    pass_sql = "PASSWORD SQL"
-    mssql_driver = "ODBC+Driver+17+for+SQL+Server"
+    - user_name=YOUR USERNAME
+    - password="YOUR PASSWORD"
+    - driver_path="./chromedriver"
+    - server_sql = "SERVER SQL"
+    - database = "DATABASE"
+    - user_sql = "USERNAME SQL"
+    - pass_sql = "PASSWORD SQL"
+    - mssql_driver = "ODBC+Driver+17+for+SQL+Server"
