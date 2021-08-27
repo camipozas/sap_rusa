@@ -1,8 +1,8 @@
-# SAP EXTRACTION FBL5N
+# SAP EXTRACTION FBL5N AL CIERRE DE MES ANTERIOR
 
 ## ***Spanish Version***
 
-Bot para extracción de transacción FBL5N en SAP Fiori
+Bot para extracción de transacción FBL5N en SAP Fiori al cierre del mes anterior
 
 Las librerías utilizadas son:
 - Selenium
@@ -28,7 +28,7 @@ https://twitter.com/sulco/status/1305841873945272321
 
 ## ***English Version***
 
-This is a bot for the extraction in SAP Fiori transaction, exactly FBL5N. 
+This is a bot for the extraction in SAP Fiori transaction, exactly FBL5N at the end of the last month.
 
 The libraries used are:
 - Selenium
@@ -59,7 +59,8 @@ For insert database from python into SQL Server :
 - https://stackoverflow.com/questions/11451101/retrieving-data-from-sql-using-pyodbc/11451863 
 - https://stackoverflow.com/questions/31997859/bulk-insert-a-pandas-dataframe-using-sqlalchemy
 
-## Run
+
+## RUN
 For execute this code you have to run some commands in this order: 
 1. Open the folder on the terminal
 2. python3 -m venv env
