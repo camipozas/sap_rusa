@@ -1,8 +1,8 @@
-# SAP EXTRACTION FBL5N AL CIERRE DE MES ANTERIOR
+# SAP EXTRACTION FBL3N
 
 ## ***Spanish Version***
 
-Bot para extracción de transacción FBL5N en SAP Fiori al cierre del mes anterior
+Bot para extracción de transacción FBL3N en SAP Fiori.
 
 Las librerías utilizadas son:
 - Selenium
@@ -28,7 +28,7 @@ https://twitter.com/sulco/status/1305841873945272321
 
 ## ***English Version***
 
-This is a bot for the extraction in SAP Fiori transaction, exactly FBL5N at the end of the last month.
+This is a bot for the extraction in SAP Fiori transaction, exactly FBL3N.
 
 The libraries used are:
 - Selenium

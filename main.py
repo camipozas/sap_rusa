@@ -18,15 +18,15 @@ from params import (
 # Limpiamos output antes de iniciar
 limpiar_output(output_dir)
 # Corremos for
-sociedades = [2000,2100,2200,3000,3100]
+cuenta_mayor = [1104031001, 1104011003]
 
-def descargar_recursivo(soc):
+def descargar_recursivo(cuenta_mayor):
   try:
-     descarga(soc)
+     descarga(cuenta_mayor)
   except:
-     descargar_recursivo(soc)
+     descargar_recursivo(cuenta_mayor)
 
-for i in sociedades:
+for i in cuenta_mayor:
     descargar_recursivo(i)
     print(i)
 
@@ -36,5 +36,5 @@ consolidado.to_excel('consolidado.xlsx')
 #print('terminado')
 
 # SQL SERVER
-test(consolidado)    # Guardamos valores en SQL
+#test(consolidado)    # Guardamos valores en SQL
 print('finalizado')

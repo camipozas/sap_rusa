@@ -27,11 +27,11 @@ def chequear_estado(driver):
         pass
 
 # Ingreso a transacción y descarga
-def descarga(soc):
+def descarga(cuenta_mayor):
     driver = webdriver.Chrome(driver_path, options = options)
 
     #   Ingresar a SAP
-    driver.get("https://dims4prdci.dimerc.cl:8001/sap/bc/ui5_ui5/ui2/ushell/shells/abap/FioriLaunchpad.html#Shell-startGUI?sap-ui2-tcode=FBL5N&sap-system=PRDCLNT300")
+    driver.get("https://dims4prdci.dimerc.cl:8001/sap/bc/ui5_ui5/ui2/ushell/shells/abap/FioriLaunchpad.html#Shell-startGUI?sap-ui2-tcode=FBL3N&sap-system=PRDCLNT300")
     element = driver.find_element_by_id("USERNAME_FIELD-inner")
     element.send_keys(user_name)
     element = driver.find_element_by_id("PASSWORD_FIELD-inner")
@@ -45,21 +45,25 @@ def descarga(soc):
 
     # Llenar datos
     chequear_estado(driver)
-    element = driver.find_element_by_id("M0:46:::2:34") # Sociedad
-    element.send_keys(soc)
-    layout = "/AUTOMATI"    # Layout
+    cuenta_de_mayor = cuenta_mayor
+    element = driver.find_element_by_id("M0:46:::1:34") # Cuenta de mayor
+    element.send_keys(cuenta_de_mayor)
+    soc1 = 2000
+    soc2 = 3100
+    element = driver.find_element_by_id("M0:46:::2:34") # Sociedad 1
+    element.send_keys(soc1)
+    element = driver.find_element_by_id("M0:46:::2:59") # Sociedad 2
+    element.send_keys(soc2)
+    layout = "/ROBOT"    # Layout
     element = driver.find_element_by_id("M0:46:::30:34")
     element.clear()
     element.send_keys(layout)
-    # Cálculo último día del mes
-    today = datetime.date.today()
-    first = today.replace(day=1)
-    eopm = first - datetime.timedelta(days=1)
-    eopm = eopm.strftime("%d.%m.%Y")
+    ayer = datetime.today() - timedelta(days=1)
+    d1 = ayer.strftime("%d.%m.%Y")
     element = driver.find_element_by_id("M0:46:::12:34")    # Fecha
     element.click()
     element.clear()
-    element.send_keys(eopm)
+    element.send_keys(d1)
     chequear_estado(driver)
 
     try:
