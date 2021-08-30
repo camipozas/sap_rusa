@@ -36,5 +36,5 @@ consolidado.to_excel('consolidado.xlsx')
 #print('terminado')
 
 # SQL SERVER
-#test(consolidado)    # Guardamos valores en SQL
+test(consolidado)    # Guardamos valores en SQL
 print('finalizado')

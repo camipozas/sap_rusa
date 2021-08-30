@@ -8,7 +8,6 @@ from selenium.common.exceptions import NoSuchElementException
 import pandas as pd
 import shutil
 import os
-import datetime
 from params import output_dir, user_name, password, driver_path
 
 # Folder tmp
@@ -45,25 +44,24 @@ def descarga(cuenta_mayor):
 
     # Llenar datos
     chequear_estado(driver)
-    cuenta_de_mayor = cuenta_mayor
-    element = driver.find_element_by_id("M0:46:::1:34") # Cuenta de mayor
-    element.send_keys(cuenta_de_mayor)
     soc1 = 2000
     soc2 = 3100
+    element = driver.find_element_by_id("M0:46:::1:34") # Cuenta de mayor
+    element.send_keys(cuenta_mayor)
     element = driver.find_element_by_id("M0:46:::2:34") # Sociedad 1
     element.send_keys(soc1)
     element = driver.find_element_by_id("M0:46:::2:59") # Sociedad 2
     element.send_keys(soc2)
-    layout = "/ROBOT"    # Layout
-    element = driver.find_element_by_id("M0:46:::30:34")
-    element.clear()
-    element.send_keys(layout)
     ayer = datetime.today() - timedelta(days=1)
     d1 = ayer.strftime("%d.%m.%Y")
     element = driver.find_element_by_id("M0:46:::12:34")    # Fecha
     element.click()
     element.clear()
     element.send_keys(d1)
+    layout = "/ROBOT"    # Layout
+    element = driver.find_element_by_id("M0:46:::28:34")
+    element.clear()
+    element.send_keys(layout)
     chequear_estado(driver)
 
     try:
