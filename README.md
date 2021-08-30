@@ -1,8 +1,8 @@
-# SAP EXTRACTION FBL3N
+# SAP EXTRACTION J3RFLVMOBVEDH
 
 ## ***Spanish Version***
 
-Bot para extracción de transacción FBL3N en SAP Fiori.
+Bot para extracción de transacción J3RFLVMOBVEDH en SAP Fiori.
 
 Las librerías utilizadas son:
 - Selenium
@@ -28,7 +28,7 @@ https://twitter.com/sulco/status/1305841873945272321
 
 ## ***English Version***
 
-This is a bot for the extraction in SAP Fiori transaction, exactly FBL3N.
+This is a bot for the extraction in SAP Fiori transaction, exactly J3RFLVMOBVEDH.
 
 The libraries used are:
 - Selenium

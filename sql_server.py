@@ -11,4 +11,4 @@ def connection():
 # Probamos conexión a SQL Server y la respectiva tabla, si existe reemplazamos los valores.
 def test(df):
     engine = connection()
-    df.to_sql('cheq_seg_fbl3n', con=engine, if_exists='replace', index=False) # CAMBIAR
+    df.to_sql('sap_rusa', con=engine, if_exists='replace', index=False) # CAMBIAR

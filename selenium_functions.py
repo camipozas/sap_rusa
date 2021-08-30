@@ -26,11 +26,11 @@ def chequear_estado(driver):
         pass
 
 # Ingreso a transacción y descarga
-def descarga(cuenta_mayor):
+def descarga(sociedad):
     driver = webdriver.Chrome(driver_path, options = options)
 
     #   Ingresar a SAP
-    driver.get("https://dims4prdci.dimerc.cl:8001/sap/bc/ui5_ui5/ui2/ushell/shells/abap/FioriLaunchpad.html#Shell-startGUI?sap-ui2-tcode=FBL3N&sap-system=PRDCLNT300")
+    driver.get("https://dims4prdci.dimerc.cl:8001/sap/bc/ui5_ui5/ui2/ushell/shells/abap/FioriLaunchpad.html#Shell-startGUI?sap-ui2-tcode=J3RFLVMOBVEDH&sap-system=PRDCLNT300")
     element = driver.find_element_by_id("USERNAME_FIELD-inner")
     element.send_keys(user_name)
     element = driver.find_element_by_id("PASSWORD_FIELD-inner")
@@ -44,22 +44,22 @@ def descarga(cuenta_mayor):
 
     # Llenar datos
     chequear_estado(driver)
-    soc1 = 2000
-    soc2 = 3100
-    element = driver.find_element_by_id("M0:46:::1:34") # Cuenta de mayor
-    element.send_keys(cuenta_mayor)
-    element = driver.find_element_by_id("M0:46:::2:34") # Sociedad 1
-    element.send_keys(soc1)
-    element = driver.find_element_by_id("M0:46:::2:59") # Sociedad 2
-    element.send_keys(soc2)
-    ayer = datetime.today() - timedelta(days=1)
-    d1 = ayer.strftime("%d.%m.%Y")
-    element = driver.find_element_by_id("M0:46:::12:34")    # Fecha
+    element = driver.find_element_by_id("M0:46:::1:34") # Sociedad
+    element.send_keys(sociedad)
+    antes_ayer = datetime.today() - timedelta(days=2)   # Fecha lim inferior
+    d1 = antes_ayer.strftime("%d.%m.%Y")
+    element = driver.find_element_by_id("M0:46:::3:34")    # Fecha lim inferior
     element.click()
     element.clear()
     element.send_keys(d1)
-    layout = "/ROBOT"    # Layout
-    element = driver.find_element_by_id("M0:46:::28:34")
+    ayer = datetime.today() - timedelta(days=1) # Fecha lim superior
+    d2 = ayer.strftime("%d.%m.%Y")
+    element = driver.find_element_by_id("M0:46:::3:59")    # Fecha lim superior
+    element.click()
+    element.clear()
+    element.send_keys(d2)
+    layout = "/CIERRE_DIA"    # Layout
+    element = driver.find_element_by_id("M0:46:1:2B302::1:33")
     element.clear()
     element.send_keys(layout)
     chequear_estado(driver)
@@ -75,28 +75,20 @@ def descarga(cuenta_mayor):
     except NoSuchElementException:
         print("...")
 
-    #   Descargar
-    #   Esperar a que se procesen los datos, si se demora más de 1000 segundos, falla.
-    element = WebDriverWait(driver, 1000).until(
-    EC.presence_of_element_located((By.ID, "M0:46:::1:0_l")) #This is a dummy element
+    #   Descargar 
+    element = WebDriverWait(driver, 500).until(
+    EC.presence_of_element_located((By.ID, "_MB_EXPORT103")) #This is a dummy element
     )
     # Scrollbar, mapeo para extraer datos
-    element = driver.find_element_by_id("RCua2FioriToolbar-moreButton")
+    print("hola")
+    element = driver.find_element_by_id("_MB_EXPORT103")
+    print("hola")
     element.click()
-
-    element = driver.find_element_by_id("wnd[0]/mbar/menu[0]-BtnChoiceMenu")
-    element.location_once_scrolled_into_view
+    print("hola")
+    #element = driver.find_element_by_id("u2065038")
+    element = driver.find_element(By.XPATH, '//button[text()="Hoja"]')
     element.click()
-
-    element = driver.find_element_by_id("wnd[0]/mbar/menu[0]/menu[3]")
-    element.click()
-
-
-    element = driver.find_element_by_id("wnd[0]/mbar/menu[0]/menu[3]/menu[1]")
-    element.click()
-
-    driver.implicitly_wait(10)
-
+    print("hola")
     #   Espera a que se abra dialogo
     WebDriverWait(driver, 600).until(
     EC.presence_of_element_located((By.ID, "PromptDialogOk-cnt"))
