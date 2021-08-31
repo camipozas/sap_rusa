@@ -26,6 +26,10 @@ Por último, en teoría están mapeados todos los posibles errores de SAP de tal
 *Nota:* Para poder realizar inspection en una scrollbar, se basó en lo siguiente:
 https://twitter.com/sulco/status/1305841873945272321
 
+De la misma forma, se debe realizar mantención cada cierta cantidad de tiempo dado que el botón de descarga contiene un id dinámico por lo que se tuvo que mapear por *css selector*. 
+
+Por último, la transacción descarga archivos que contienen *export.xlsx* los cuales no son tomados en consideración al momento de consolidar por lo que en la función de consolidado estos se eliminan.
+
 ## ***English Version***
 
 This is a bot for the extraction in SAP Fiori transaction, exactly J3RFLVMOBVEDH.
@@ -50,6 +54,10 @@ Things to consider, when changing users it depends on their role and profile whi
 Finally, in theory all possible SAP errors are mapped in such away that they doesn't have to be executed in a supervised way.
 
 *Note:* To be able to perform inspection in a scrollbar, was based on this following: https://twitter.com/sulco/status/1305841873945272321 
+
+In the same way, maintenance should be done every certain amount of time since the download button contains a dynamic id so it had to be mapped by *css selector*.
+
+Finally, the transaction downloads files that contain *export.xlsx* which are not taken into consideration when consolidating, so in the consolidation function these are eliminated.
 
 ## *SQL*
 Install [ODBC](https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/install-microsoft-odbc-driver-sql-server-macos?view=sql-server-ver15)

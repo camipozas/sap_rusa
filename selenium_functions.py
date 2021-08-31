@@ -80,15 +80,13 @@ def descarga(sociedad):
     EC.presence_of_element_located((By.ID, "_MB_EXPORT103")) #This is a dummy element
     )
     # Scrollbar, mapeo para extraer datos
-    print("hola")
     element = driver.find_element_by_id("_MB_EXPORT103")
-    print("hola")
     element.click()
-    print("hola")
-    #element = driver.find_element_by_id("u2065038")
-    element = driver.find_element(By.XPATH, '//button[text()="Hoja"]')
+    element = driver.find_element_by_css_selector('#menu_MB_EXPORT103_1_1> tbody > tr:first-of-type')
+    element.location_once_scrolled_into_view
     element.click()
-    print("hola")
+    driver.implicitly_wait(10)
+
     #   Espera a que se abra dialogo
     WebDriverWait(driver, 600).until(
     EC.presence_of_element_located((By.ID, "PromptDialogOk-cnt"))
@@ -127,7 +125,8 @@ def consolidar(output_dir):
   df = pd.DataFrame()
   # Filtramos solo los archivos excel
   excels = [file for file in os.listdir(output_dir) if file.endswith('.xlsx')]
-  for excel in excels:
+  excels_limpio = [ excel for excel in excels if not excel.startswith('export')]
+  for excel in excels_limpio:
     # Leemos archivo
     tmp = pd.read_excel(os.path.join(output_dir, excel))
 

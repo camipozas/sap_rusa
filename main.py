@@ -33,8 +33,7 @@ for i in sociedad:
 # Consolidamos en un solo archivo
 consolidado = consolidar(output_dir)
 consolidado.to_excel('consolidado.xlsx')
-#print('terminado')
 
 # SQL SERVER
-#test(consolidado)    # Guardamos valores en SQL
+test(consolidado)    # Guardamos valores en SQL
 print('finalizado')
