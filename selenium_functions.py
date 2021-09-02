@@ -65,7 +65,7 @@ def descarga(sociedad):
     chequear_estado(driver)
 
     try:
-        element = WebDriverWait(driver, 100).until(
+        element = WebDriverWait(driver, 500).until(
         EC.presence_of_element_located((By.ID, "M0:50::btn[8]")) #This is a dummy element
         )
         element = driver.find_element_by_id("M0:50::btn[8]")    # Ejecutar
@@ -76,7 +76,7 @@ def descarga(sociedad):
         print("...")
 
     #   Descargar 
-    element = WebDriverWait(driver, 500).until(
+    element = WebDriverWait(driver, 600).until(
     EC.presence_of_element_located((By.ID, "_MB_EXPORT103")) #This is a dummy element
     )
     # Scrollbar, mapeo para extraer datos
