@@ -30,6 +30,8 @@ De la misma forma, se debe realizar mantención cada cierta cantidad de tiempo d
 
 Por último, la transacción descarga archivos que contienen *export.xlsx* los cuales no son tomados en consideración al momento de consolidar por lo que en la función de consolidado estos se eliminan.
 
+Para instalar chromedriver, debe buscar su versión de Chrome y luego descargarla aquí [Chrome Driver](https://chromedriver.chromium.org/downloads)
+
 ## ***English Version***
 
 This is a bot for the extraction in SAP Fiori transaction, exactly J3RFLVMOBVEDH.
@@ -58,6 +60,8 @@ Finally, in theory all possible SAP errors are mapped in such away that they doe
 In the same way, maintenance should be done every certain amount of time since the download button contains a dynamic id so it had to be mapped by *css selector*.
 
 Finally, the transaction downloads files that contain *export.xlsx* which are not taken into consideration when consolidating, so in the consolidation function these are eliminated.
+
+** For install the chromedriver you have to search your chrome version and then download it here [Chrome Driver](https://chromedriver.chromium.org/downloads)
 
 ## *SQL*
 Install [ODBC](https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/install-microsoft-odbc-driver-sql-server-macos?view=sql-server-ver15)
