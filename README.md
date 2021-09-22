@@ -30,8 +30,6 @@ De la misma forma, se debe realizar mantención cada cierta cantidad de tiempo d
 
 Por último, la transacción descarga archivos que contienen *export.xlsx* los cuales no son tomados en consideración al momento de consolidar por lo que en la función de consolidado estos se eliminan.
 
-**Para instalar chromedriver, debe buscar su versión de Chrome y luego descargarla aquí [Chrome Driver](https://chromedriver.chromium.org/downloads)
-
 ## ***English Version***
 
 This is a bot for the extraction in SAP Fiori transaction, exactly J3RFLVMOBVEDH.
