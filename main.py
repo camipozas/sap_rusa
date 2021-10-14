@@ -18,7 +18,7 @@ from params import (
 # Limpiamos output antes de iniciar
 limpiar_output(output_dir)
 # Corremos for
-sociedad = [2000,2100,2200,3000,3100]
+sociedad = [2000,2200,3000,3100]
 
 def descargar_recursivo(sociedad):
   try:

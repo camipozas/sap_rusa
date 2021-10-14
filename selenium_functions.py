@@ -1,17 +1,33 @@
+import shutil
+import os
+from datetime import datetime,timedelta
+
+import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from datetime import datetime,timedelta
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
-import pandas as pd
-import shutil
-import os
-from params import output_dir, user_name, password, driver_path
+from pyvirtualdisplay import Display
+
+from params import output_dir, user_name, password
+
+
+display = Display(visible=0, size=(1920, 1080))
+display.start()
+print('Initialized virtual display..')
 
 # Folder tmp
 options = webdriver.ChromeOptions() 
+options.add_argument('--no-sandbox')
+download_argument = f'download.default_directory={output_dir}'
+prefs = {'download.default_directory' : output_dir}
+options.add_experimental_option('prefs', prefs)
+
+# Folder tmp
+options = webdriver.ChromeOptions() 
+options.add_argument('--no-sandbox')
 download_argument = f'download.default_directory={output_dir}'
 prefs = {'download.default_directory' : output_dir}
 options.add_experimental_option('prefs', prefs)
@@ -27,7 +43,7 @@ def chequear_estado(driver):
 
 # Ingreso a transacción y descarga
 def descarga(sociedad):
-    driver = webdriver.Chrome(driver_path, options = options)
+    driver = webdriver.Chrome(options = options)
 
     #   Ingresar a SAP
     driver.get("https://dims4prdci.dimerc.cl:8001/sap/bc/ui5_ui5/ui2/ushell/shells/abap/FioriLaunchpad.html#Shell-startGUI?sap-ui2-tcode=J3RFLVMOBVEDH&sap-system=PRDCLNT300")

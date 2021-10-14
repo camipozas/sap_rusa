@@ -4,3 +4,4 @@ env/
 chromedriver*
 *.xlsx
 __pycache__/
+.tar
