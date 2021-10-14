@@ -25,13 +25,6 @@ download_argument = f'download.default_directory={output_dir}'
 prefs = {'download.default_directory' : output_dir}
 options.add_experimental_option('prefs', prefs)
 
-# Folder tmp
-options = webdriver.ChromeOptions() 
-options.add_argument('--no-sandbox')
-download_argument = f'download.default_directory={output_dir}'
-prefs = {'download.default_directory' : output_dir}
-options.add_experimental_option('prefs', prefs)
-
 # Chequeo estado de la carga
 def chequear_estado(driver):
     try:
