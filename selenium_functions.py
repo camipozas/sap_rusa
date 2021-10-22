@@ -113,7 +113,7 @@ def descarga(sociedad):
             button.click()
             button.click()
         except:
-            print('error')
+            print('Downloading...')
     finally:
         driver.quit()
 
