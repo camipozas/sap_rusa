@@ -30,13 +30,13 @@ def descargar_recursivo(sociedad):
   except:
      descargar_recursivo(sociedad)
 
-'''for i in sociedad:
+for i in sociedad:
     try:
       descargar_recursivo(i)
     except:
       print(f"salta sociedad {i}")
       continue
-    print(i)'''
+    print(i)
 
 # Consolidamos en un solo archivo
 consolidado = consolidar(output_dir)
