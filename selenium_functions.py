@@ -9,16 +9,16 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
-#sfrom pyvirtualdisplay import Display
+from pyvirtualdisplay import Display
 
-from params import output_dir, user_name, password, driver_path
+from params import output_dir, user_name, password
 from decorator import log
 from add_date import today, antes_ayer, ayer
 
 
-#display = Display(visible=0, size=(1920, 1080))
-#display.start()
-#print('Initialized virtual display..')
+display = Display(visible=0, size=(1920, 1080))
+display.start()
+print('Initialized virtual display..')
 
 # Folder tmp
 options = webdriver.ChromeOptions() 
@@ -50,7 +50,7 @@ def chequear_estado(driver):
 # Ingreso a transacción y descarga
 @log
 def descarga(sociedad):
-    with webdriver.Chrome(driver_path, options = options) as driver:
+    with webdriver.Chrome(options = options) as driver:
 
       #   Ingresar a SAP
       driver.get("https://dims4prdci.dimerc.cl:8001/sap/bc/ui5_ui5/ui2/ushell/shells/abap/FioriLaunchpad.html#Shell-startGUI?sap-ui2-tcode=J3RFLVMOBVEDH&sap-system=PRDCLNT300")
