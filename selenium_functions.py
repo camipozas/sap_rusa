@@ -1,6 +1,6 @@
 import shutil
 import os
-from datetime import datetime,timedelta
+import re
 
 import pandas as pd
 from selenium import webdriver
@@ -9,15 +9,16 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
-from pyvirtualdisplay import Display
+#sfrom pyvirtualdisplay import Display
 
-from params import output_dir, user_name, password
+from params import output_dir, user_name, password, driver_path
 from decorator import log
+from add_date import today, antes_ayer, ayer
 
 
-display = Display(visible=0, size=(1920, 1080))
-display.start()
-print('Initialized virtual display..')
+#display = Display(visible=0, size=(1920, 1080))
+#display.start()
+#print('Initialized virtual display..')
 
 # Folder tmp
 options = webdriver.ChromeOptions() 
@@ -30,95 +31,103 @@ options.add_experimental_option('prefs', prefs)
 @log
 def chequear_estado(driver):
     try:
-        error1 = driver.find_element_by_id("wnd[0]/sbar_msg-txt")
-        if error1.is_displayed():
-           raise ValueError('Error de SAP')
+        error = driver.find_element_by_id("wnd[0]/sbar_msg-txt")
+        displayed = error.is_displayed()
+        if displayed:
+          text = error.get_attribute('innerHTML')
+          regex_vacio = r"No se ha seleccionado ninguna partida"
+          regex_timeout = r"Tiempo de espera"
+          regex_autorizacion = r"No tiene autorización para la sociedad"
+          if re.match(regex_vacio, text):
+           raise ValueError("Sin datos en sociedad")
+          elif re.match(regex_timeout, text):
+            raise ValueError('Error de SAP')
+          elif re.match(regex_autorizacion, text):
+            raise ValueError('Error autorización')
     except NoSuchElementException:
         pass
 
 # Ingreso a transacción y descarga
 @log
 def descarga(sociedad):
-    driver = webdriver.Chrome(options = options)
+    with webdriver.Chrome(driver_path, options = options) as driver:
 
-    #   Ingresar a SAP
-    driver.get("https://dims4prdci.dimerc.cl:8001/sap/bc/ui5_ui5/ui2/ushell/shells/abap/FioriLaunchpad.html#Shell-startGUI?sap-ui2-tcode=J3RFLVMOBVEDH&sap-system=PRDCLNT300")
-    element = driver.find_element_by_id("USERNAME_FIELD-inner")
-    element.send_keys(user_name)
-    element = driver.find_element_by_id("PASSWORD_FIELD-inner")
-    element.send_keys(password)
-    element.send_keys(Keys.RETURN)
+      #   Ingresar a SAP
+      driver.get("https://dims4prdci.dimerc.cl:8001/sap/bc/ui5_ui5/ui2/ushell/shells/abap/FioriLaunchpad.html#Shell-startGUI?sap-ui2-tcode=J3RFLVMOBVEDH&sap-system=PRDCLNT300")
+      element = driver.find_element_by_id("USERNAME_FIELD-inner")
+      element.send_keys(user_name)
+      element = driver.find_element_by_id("PASSWORD_FIELD-inner")
+      element.send_keys(password)
+      element.send_keys(Keys.RETURN)
 
-    #   Ingresar a la transaccion
-    driver.implicitly_wait(20)
-    driver.switch_to.frame("application-Shell-startGUI")    # Frames SAP (tener ojo con roles y perfiles)
-    driver.switch_to.frame("ITSFRAME1")
+      #   Ingresar a la transaccion
+      driver.implicitly_wait(20)
+      driver.switch_to.frame("application-Shell-startGUI")    # Frames SAP (tener ojo con roles y perfiles)
+      driver.switch_to.frame("ITSFRAME1")
 
-    # Llenar datos
-    chequear_estado(driver)
-    element = driver.find_element_by_id("M0:46:::1:34") # Sociedad
-    element.send_keys(sociedad)
-    antes_ayer = datetime.today() - timedelta(days=2)   # Fecha lim inferior
-    d1 = antes_ayer.strftime("%d.%m.%Y")
-    element = driver.find_element_by_id("M0:46:::3:34")    # Fecha lim inferior
-    element.click()
-    element.clear()
-    element.send_keys(d1)
-    ayer = datetime.today() - timedelta(days=1) # Fecha lim superior
-    d2 = ayer.strftime("%d.%m.%Y")
-    element = driver.find_element_by_id("M0:46:::3:59")    # Fecha lim superior
-    element.click()
-    element.clear()
-    element.send_keys(d2)
-    layout = "/CIERRE_DIA"    # Layout
-    element = driver.find_element_by_id("M0:46:1:2B302::1:33")
-    element.clear()
-    element.send_keys(layout)
-    chequear_estado(driver)
+      # Llenar datos
+      chequear_estado(driver)
+      element = driver.find_element_by_id("M0:46:::1:34") # Sociedad
+      element.send_keys(sociedad)
+      d1 = antes_ayer() # Fecha lim inferior
+      element = driver.find_element_by_id("M0:46:::3:34")    # Fecha lim inferior
+      element.click()
+      element.clear()
+      element.send_keys(d1)
+      d2 = ayer() # Fecha lim superior
+      element = driver.find_element_by_id("M0:46:::3:59")    # Fecha lim superior
+      element.click()
+      element.clear()
+      element.send_keys(d2)
+      layout = "/CIERRE_DIA"    # Layout
+      element = driver.find_element_by_id("M0:46:1:2B302::1:33")
+      element.clear()
+      element.send_keys(layout)
+      chequear_estado(driver)
 
-    try:
-        element = WebDriverWait(driver, 500).until(
-        EC.presence_of_element_located((By.ID, "M0:50::btn[8]")) #This is a dummy element
-        )
-        element = driver.find_element_by_id("M0:50::btn[8]")    # Ejecutar
-        if element.is_displayed() and element.is_enabled():
-            element.click() # this will click the element if it is there
-            print("FOUND THE LINK CREATE ACTIVITY! and Clicked it!")
-    except NoSuchElementException:
-        print("...")
+      try:
+          element = WebDriverWait(driver, 500).until(
+          EC.presence_of_element_located((By.ID, "M0:50::btn[8]")) #This is a dummy element
+          )
+          element = driver.find_element_by_id("M0:50::btn[8]")    # Ejecutar
+          if element.is_displayed() and element.is_enabled():
+              element.click() # this will click the element if it is there
+              print("FOUND THE LINK CREATE ACTIVITY! and Clicked it!")
+      except NoSuchElementException:
+          print("...")
 
-    #   Descargar 
-    element = WebDriverWait(driver, 600).until(
-    EC.presence_of_element_located((By.ID, "_MB_EXPORT103")) #This is a dummy element
-    )
-    # Scrollbar, mapeo para extraer datos
-    element = driver.find_element_by_id("_MB_EXPORT103")
-    element.click()
-    element = driver.find_element_by_css_selector('#menu_MB_EXPORT103_1_1> tbody > tr:first-of-type')
-    element.location_once_scrolled_into_view
-    element.click()
-    driver.implicitly_wait(10)
+      #   Descargar 
+      element = WebDriverWait(driver, 600).until(
+      EC.presence_of_element_located((By.ID, "_MB_EXPORT103")) #This is a dummy element
+      )
+      # Scrollbar, mapeo para extraer datos
+      element = driver.find_element_by_id("_MB_EXPORT103")
+      element.click()
+      element = driver.find_element_by_css_selector('#menu_MB_EXPORT103_1_1> tbody > tr:first-of-type')
+      element.location_once_scrolled_into_view
+      element.click()
+      driver.implicitly_wait(10)
 
-    #   Espera a que se abra dialogo
-    WebDriverWait(driver, 600).until(
-    EC.presence_of_element_located((By.ID, "PromptDialogOk-cnt"))
-    )
-    button = driver.find_element_by_id("PromptDialogOk")
-    
-    #   No se por qué pero con dos click funciona
-    try:
-        button.click()
-        button.click()
-    except:
-        try:
-            driver.implicitly_wait(10)
-            button = driver.find_element_by_id("PromptDialogOk")
-            button.click()
-            button.click()
-        except:
-            print('Downloading...')
-    finally:
-        driver.quit()
+      #   Espera a que se abra dialogo
+      WebDriverWait(driver, 600).until(
+      EC.presence_of_element_located((By.ID, "PromptDialogOk-cnt"))
+      )
+      button = driver.find_element_by_id("PromptDialogOk")
+      
+      #   No se por qué pero con dos click funciona
+      try:
+          button.click()
+          button.click()
+      except:
+          try:
+              driver.implicitly_wait(10)
+              button = driver.find_element_by_id("PromptDialogOk")
+              button.click()
+              button.click()
+          except:
+              print('Downloading...')
+      finally:
+          driver.quit()
 
 @log
 def limpiar_output(output_dir):
@@ -147,5 +156,5 @@ def consolidar(output_dir):
       df = tmp.copy()
     else:
       df = pd.concat([df, tmp])
-      df['fecha_extraccion'] = datetime.today()
+      df['fecha_extraccion'] = today()
   return df

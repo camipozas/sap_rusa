@@ -15,3 +15,6 @@ def connection():
 def test(df):
     engine = connection()
     df.to_sql('sap_rusa', con=engine, if_exists='replace', index=False)
+
+hola = connection()
+print(hola)
