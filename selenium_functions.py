@@ -12,6 +12,7 @@ from selenium.common.exceptions import NoSuchElementException
 from pyvirtualdisplay import Display
 
 from params import output_dir, user_name, password
+from decorator import log
 
 
 display = Display(visible=0, size=(1920, 1080))
@@ -26,6 +27,7 @@ prefs = {'download.default_directory' : output_dir}
 options.add_experimental_option('prefs', prefs)
 
 # Chequeo estado de la carga
+@log
 def chequear_estado(driver):
     try:
         error1 = driver.find_element_by_id("wnd[0]/sbar_msg-txt")
@@ -35,6 +37,7 @@ def chequear_estado(driver):
         pass
 
 # Ingreso a transacción y descarga
+@log
 def descarga(sociedad):
     driver = webdriver.Chrome(options = options)
 
@@ -117,6 +120,7 @@ def descarga(sociedad):
     finally:
         driver.quit()
 
+@log
 def limpiar_output(output_dir):
   # Si existe la carpeta la eliminamos
   if os.path.isdir(output_dir):
@@ -129,7 +133,7 @@ def limpiar_output(output_dir):
   os.mkdir(output_dir)
   print('carpeta limpia')
 
-
+@log
 def consolidar(output_dir):
   df = pd.DataFrame()
   # Filtramos solo los archivos excel

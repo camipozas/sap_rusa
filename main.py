@@ -1,8 +1,10 @@
+from decorator import log
 from selenium_functions import limpiar_output
 from params import output_dir
 from selenium_functions import descarga
 from selenium_functions import consolidar
 from sql_server import test
+from decorator import log
 
 # Credenciales
 from params import (
@@ -20,6 +22,7 @@ limpiar_output(output_dir)
 # Corremos for
 sociedad = [2000,2200,3000,3100]
 
+@log
 def descargar_recursivo(sociedad):
   try:
      descarga(sociedad)
