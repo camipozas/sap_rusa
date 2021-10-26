@@ -96,6 +96,8 @@ def descarga(sociedad):
       except NoSuchElementException:
           print("...")
 
+      chequear_estado(driver)
+      
       #   Descargar 
       element = WebDriverWait(driver, 600).until(
       EC.presence_of_element_located((By.ID, "_MB_EXPORT103")) #This is a dummy element
