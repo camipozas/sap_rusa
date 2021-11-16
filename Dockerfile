@@ -1,4 +1,4 @@
-FROM python:slim-buster AS selenium
+FROM python:3.9-slim-buster AS selenium
 
 ENV TZ=America/Los_Angeles \
     DEBIAN_FRONTEND=noninteractive
@@ -56,9 +56,5 @@ ADD openssl.cnf /etc/ssl/openssl.cnf
 RUN cat /etc/ssl/openssl.cnf
 
 RUN apt-get install -y locales locales-all
-
-ENV LC_ALL es_CL.UTF-8
-ENV LANG es_CL.UTF-8
-ENV LANGUAGE es_CL.UTF-8
 
 CMD python main.py
