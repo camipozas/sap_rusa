@@ -9,16 +9,16 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
-#from pyvirtualdisplay import Display
+from pyvirtualdisplay import Display
 
 from params import output_dir, user_name, password, driver_path
 from decorator import log
 from add_date import today, antes_ayer, ayer
 
 
-'''display = Display(visible=0, size=(1920, 1080))
+display = Display(visible=0, size=(1920, 1080))
 display.start()
-print('Initialized virtual display..')'''
+print('Initialized virtual display..')
 
 # Folder tmp
 options = webdriver.ChromeOptions() 
