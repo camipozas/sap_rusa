@@ -50,7 +50,7 @@ def chequear_estado(driver):
 # Ingreso a transacción y descarga
 @log
 def descarga(sociedad):
-    with webdriver.Chrome(driver_path, options = options) as driver:
+    with webdriver.Chrome(options = options) as driver:
 
       #   Ingresar a SAP
       driver.get("https://dims4prdci.dimerc.cl:8001/sap/bc/ui5_ui5/ui2/ushell/shells/abap/FioriLaunchpad.html#Shell-startGUI?sap-ui2-tcode=J3RFLVMOBVEDH&sap-system=PRDCLNT300")
