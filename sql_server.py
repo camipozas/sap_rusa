@@ -8,6 +8,7 @@ from decorator import log
 def connection():
     engine = create_engine(f'mssql+pyodbc://{user_sql}:{pass_sql}@{server_sql}/{database}?driver={mssql_driver}', 
             fast_executemany = True)
+    print('conectado')
     return engine
 
 # Probamos conexión a SQL Server y la respectiva tabla, si existe reemplazamos los valores.
